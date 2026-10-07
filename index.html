@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debate Cards: Comparatives & Superlatives</title>
+  <style>
+    /* Design Brief CSS Variables */
+    :root {
+      --primary-300: #F9C97A;
+      --primary-500: #F4A329;
+      --primary-700: #B45309;
+
+      --secondary-300: #7EDAD6;
+      --secondary-500: #2BB6B4;
+      --secondary-700: #0F766E;
+
+      --accent-300: #F49DB8;
+      --accent-500: #E8467B;
+      --accent-700: #A61E4D;
+
+      --bg: #FFF7F2;
+      --surface: #FFFFFF;
+      --surface-alt: #F5F7FA;
+      --border: #E6E9EF;
+
+      --text: #1F2937;
+      --text-2: #4B5563;
+      --text-muted: #6B7280;
+      --text-inverse: #FFFFFF;
+
+      --success: #2F9E44;
+      --warning: #F59F00;
+      --error: #D92D20;
+      --info: #2563EB;
+
+      /* Typography */
+      --font-main: "Inter", "Nunito", system-ui, -apple-system, sans-serif;
+
+      /* Radii & Shadows */
+      --radius-card: 16px;
+      --radius-pill: 9999px;
+      --shadow-card: 0 4px 14px rgba(17, 24, 39, 0.08);
+
+      /* Transitions */
+      --transition: 180ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Main Card */
+    .card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      padding: 24px;
+      margin-bottom: 16px;
+      transition: var(--transition);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .topic-counter {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--secondary-700);
+      background-color: var(--surface-alt);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+    }
+
+    .category-tag {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Target Adjective Banner */
+    .adjective-banner {
+      background-color: var(--bg);
+      border: 1px solid var(--primary-300);
+      border-radius: var(--radius-card);
+      padding: 16px 20px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .adjective-label {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .adjective-target {
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--primary-700);
+      line-height: 1.2;
+    }
+
+    .grammar-hint {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--text-2);
+      font-weight: 400;
+    }
+
+    .grammar-hint span {
+      display: inline-block;
+      background: var(--surface);
+      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      margin: 2px 4px;
+    }
+
+    /* 3 Items to Compare */
+    .options-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background-color: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 14px 16px;
+    }
+
+    .option-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-pill);
+      background-color: var(--secondary-700);
+      color: var(--text-inverse);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .option-text {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Scaffolding Bar for Speaking Support */
+    .scaffold-box {
+      background-color: #FAFAF9;
+      border-left: 4px solid var(--secondary-500);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      color: var(--text-2);
+    }
+
+    .scaffold-box strong {
+      color: var(--secondary-700);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Button Controls */
+    .controls {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    button {
+      font-family: var(--font-main);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: var(--radius-pill);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-700);
+      color: var(--text-inverse);
+      flex: 1;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(95%);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--primary-700);
+      border: 2px solid var(--primary-300);
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(249, 201, 122, 0.24);
+    }
+
+    button:focus-visible {
+      outline: 2px solid var(--secondary-500);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 16px;
+      }
+      .adjective-target {
+        font-size: 26px;
+      }
+      .option-text {
+        font-size: 16px;
+      }
+      .controls {
+        flex-direction: column-reverse;
+      }
+      .btn-secondary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <div class="card">
+      <div class="card-header">
+        <span class="topic-counter" id="cardCounter">Card 1 / 50</span>
+        <span class="category-tag" id="cardCategory">Adjective Form</span>
+      </div>
+
+      <!-- Adjective Focus -->
+      <div class="adjective-banner">
+        <div class="adjective-label">Adjective in Focus</div>
+        <div class="adjective-target" id="targetAdjective">healthy</div>
+        <div class="grammar-hint" id="grammarHint">
+          Forms: <span>healthier</span> <span>the healthiest</span>
+        </div>
+      </div>
+
+      <!-- 3 Debatable Items -->
+      <div class="options-title">Compare these 3 items</div>
+      <div class="options-list">
+        <div class="option-item">
+          <div class="option-badge">A</div>
+          <div class="option-text" id="optA">running every morning</div>
+        </div>
+        <div class="option-item">
+          <div class="option-badge">B</div>
+          <div class="option-text" id="optB">drinking only water</div>
+        </div>
+        <div class="option-item">
+          <div class="option-badge">C</div>
+          <div class="option-text" id="optC">sleeping 9 hours every night</div>
+        </div>
+      </div>
+
+      <!-- Simple Speaking Scaffold for B1- students -->
+      <div class="scaffold-box">
+        <strong>Speaking Prompt:</strong>
+        • "I think <em>[A]</em> is <em>...-er / more ...</em> than <em>[B]</em> because..."<br>
+        • "In my opinion, <em>[C]</em> is the <em>...-est / most ...</em> because..."
+      </div>
+
+      <!-- Navigation -->
+      <div class="controls">
+        <button type="button" class="btn-secondary" id="prevBtn">Previous</button>
+        <button type="button" class="btn-secondary" id="randomBtn">Random</button>
+        <button type="button" class="btn-primary" id="nextBtn">Next Card</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // 50 B1- Accessible Prompts with Adjectives & Comparisons
+    const prompts = [
+      // 1. Short adjectives (-er / -est)
+      { adj: "big", comp: "bigger", sup: "the biggest", group: "Short (-er / -est)", a: "your family", b: "your school", c: "your city" },
+      { adj: "cheap", comp: "cheaper", sup: "the cheapest", group: "Short (-er / -est)", a: "streaming movies at home", b: "buying clothes in sales", c: "fast food dinners" },
+      { adj: "fast", comp: "faster", sup: "the fastest", group: "Short (-er / -est)", a: "riding a bicycle", b: "taking the metro", c: "skateboarding" },
+      { adj: "hard", comp: "harder", sup: "the hardest", group: "Short (-er / -est)", a: "getting up at 6:00 AM", b: "cleaning your bedroom", c: "doing math homework" },
+      { adj: "hot", comp: "hotter", sup: "the hottest", group: "Short (-er / -est)", a: "drinking hot tea in summer", b: "spicy Mexican food", c: "sitting in a car with no AC" },
+      { adj: "cold", comp: "colder", sup: "the coldest", group: "Short (-er / -est)", a: "swimming in a lake in May", b: "eating ice cream in winter", c: "having a cold shower" },
+      { adj: "cool (stylish)", comp: "cooler", sup: "the coolest", group: "Short (-er / -est)", a: "wearing vintage jackets", b: "clean white sneakers", c: "riding a classic Vespa" },
+      { adj: "safe", comp: "safer", sup: "the safest", group: "Short (-er / -est)", a: "cycling in the city centre", b: "meeting an online friend", c: "travelling alone by train" },
+      { adj: "slow", comp: "slower", sup: "the slowest", group: "Short (-er / -est)", a: "a rainy Sunday afternoon", b: "reading a 400-page book", c: "waiting in a post office queue" },
+      { adj: "loud", comp: "louder", sup: "the loudest", group: "Short (-er / -est)", a: "a school cafeteria at lunch", b: "a live rock concert", c: "your morning phone alarm" },
+      { adj: "clean", comp: "cleaner", sup: "the cleanest", group: "Short (-er / -est)", a: "a hospital room", b: "your bedroom on Sunday", c: "a brand new smartphone screen" },
+      { adj: "rich", comp: "richer", sup: "the richest", group: "Short (-er / -est)", a: "a famous TikTok influencer", b: "a professional footballer", c: "a top plastic surgeon" },
+      { adj: "young", comp: "younger", sup: "the youngest", group: "Short (-er / -est)", a: "starting university at 17", b: "being a team captain at 15", c: "living on your own at 18" },
+      { adj: "dark", comp: "darker", sup: "the darkest", group: "Short (-er / -est)", a: "walking in a forest at night", b: "an empty cinema room", c: "a basement with no windows" },
+
+      // 2. Adjectives ending in -y (-ier / -iest)
+      { adj: "healthy", comp: "healthier", sup: "the healthiest", group: "Ends in -y (-ier / -iest)", a: "running every morning", b: "drinking only water", c: "sleeping 9 hours every night" },
+      { adj: "easy", comp: "easier", sup: "the easiest", group: "Ends in -y (-ier / -iest)", a: "making instant noodles", b: "learning English vocabulary", c: "sending a text message" },
+      { adj: "funny", comp: "funnier", sup: "the funniest", group: "Ends in -y (-ier / -iest)", a: "Mr. Bean episodes", b: "cat videos on TikTok", c: "a live stand-up comedy show" },
+      { adj: "noisy", comp: "noisier", sup: "the noisiest", group: "Ends in -y (-ier / -iest)", a: "a student house party next door", b: "someone chewing food loudly", c: "dogs barking all night" },
+      { adj: "tasty", comp: "tastier", sup: "the tastiest", group: "Ends in -y (-ier / -iest)", a: "fresh hot pizza", b: "warm chocolate chip cookies", c: "salty French fries" },
+      { adj: "lazy", comp: "lazier", sup: "the laziest", group: "Ends in -y (-ier / -iest)", a: "watching Netflix in bed all day", b: "ordering takeaway dinner online", c: "sleeping until 1:00 PM" },
+      { adj: "scary", comp: "scarier", sup: "the scariest", group: "Ends in -y (-ier / -iest)", a: "a sudden night thunderstorm", b: "a psychological horror film", c: "seeing a large spider on your wall" },
+      { adj: "busy", comp: "busier", sup: "the busiest", group: "Ends in -y (-ier / -iest)", a: "a train station at 8:00 AM", b: "a shopping mall on Saturday", c: "a school hallway between lessons" },
+      { adj: "ugly", comp: "uglier", sup: "the ugliest", group: "Ends in -y (-ier / -iest)", a: "modern grey concrete buildings", b: "bad haircuts from your childhood", c: "neon-coloured sportswear" },
+      { adj: "silly", comp: "sillier", sup: "the silliest", group: "Ends in -y (-ier / -iest)", a: "viral dance trends on TikTok", b: "arguing about video games", c: "believing in daily horoscopes" },
+      { adj: "heavy", comp: "heavier", sup: "the heaviest", group: "Ends in -y (-ier / -iest)", a: "a school bag with 6 books", b: "an old TV set", c: "supermarket shopping bags" },
+      { adj: "dirty", comp: "dirtier", sup: "the dirtiest", group: "Ends in -y (-ier / -iest)", a: "a keyboard used for one year", b: "the bottom of your sneakers", c: "a public festival park" },
+      { adj: "friendly", comp: "friendlier", sup: "the friendliest", group: "Ends in -y (-ier / -iest)", a: "a golden retriever dog", b: "a small neighbourhood baker", c: "your favourite school teacher" },
+
+      // 3. Irregulars (good / bad)
+      { adj: "good for Friday night", comp: "better", sup: "the best", group: "Irregular (better / best)", a: "gaming online with friends", b: "going to the cinema", c: "a big house party" },
+      { adj: "good way to relax", comp: "better", sup: "the best", group: "Irregular (better / best)", a: "music through good headphones", b: "a quiet walk in the park", c: "a long warm bath" },
+      { adj: "good pet for a teen", comp: "better", sup: "the best", group: "Irregular (better / best)", a: "a quiet, independent cat", b: "an energetic, loyal dog", c: "a calm, low-maintenance turtle" },
+      { adj: "good future career", comp: "better", sup: "the best", group: "Irregular (better / best)", a: "software engineer", b: "travel vlogger", c: "airline pilot" },
+      { adj: "bad for your health", comp: "worse", sup: "the worst", group: "Irregular (worse / worst)", a: "drinking 4 energy drinks a day", b: "screen time until 2:00 AM", c: "fast food for dinner every day" },
+      { adj: "bad daily habit", comp: "worse", sup: "the worst", group: "Irregular (worse / worst)", a: "checking your phone every 5 minutes", b: "biting your fingernails", c: "arriving 10 minutes late to class" },
+      { adj: "bad weekend plan", comp: "worse", sup: "the worst", group: "Irregular (worse / worst)", a: "staying home with no internet", b: "studying all weekend for exams", c: "deep-cleaning the whole house" },
+
+      // 4. Longer adjectives (more / most)
+      { adj: "useful in real life", comp: "more useful", sup: "the most useful", group: "Longer (more / most)", a: "cooking a healthy meal", b: "speaking fluent English", c: "driving a car" },
+      { adj: "annoying", comp: "more annoying", sup: "the most annoying", group: "Longer (more / most)", a: "slow internet connection", b: "people talking in the cinema", c: "getting left on 'read'" },
+      { adj: "boring", comp: "more boring", sup: "the most boring", group: "Longer (more / most)", a: "historical museum visits", b: "old black-and-white films", c: "doing repetitive grammar drills" },
+      { adj: "stressful", comp: "more stressful", sup: "the most stressful", group: "Longer (more / most)", a: "exam week at school", b: "speaking in public for 5 minutes", c: "losing your smartphone on the bus" },
+      { adj: "dangerous", comp: "more dangerous", sup: "the most dangerous", group: "Longer (more / most)", a: "riding an e-scooter without a helmet", b: "swimming in deep ocean water", c: "walking home alone after midnight" },
+      { adj: "expensive", comp: "more expensive", sup: "the most expensive", group: "Longer (more / most)", a: "the latest flagship smartphone", b: "limited edition designer sneakers", c: "tickets to a weekend music festival" },
+      { adj: "exciting", comp: "more exciting", sup: "the most exciting", group: "Longer (more / most)", a: "riding a big rollercoaster", b: "a road trip abroad with friends", c: "a surprise birthday party" },
+      { adj: "important in a friend", comp: "more important", sup: "the most important", group: "Longer (more / most)", a: "telling the absolute truth", b: "sharing the same sense of humour", c: "keeping secrets safe" },
+      { adj: "tiring", comp: "more tiring", sup: "the most tiring", group: "Longer (more / most)", a: "babysitting hyperactive kids for 5 hours", b: "studying all night before an exam", c: "walking 15 kilometres in a day" },
+      { adj: "comfortable", comp: "more comfortable", sup: "the most comfortable", group: "Longer (more / most)", a: "a huge soft armchair", b: "your own bed at home", c: "a warm oversized hoodie" },
+      { adj: "popular with teenagers", comp: "more popular", sup: "the most popular", group: "Longer (more / most)", a: "short video feeds (TikTok/Reels)", b: "multiplayer online gaming", c: "vintage thrift store shopping" },
+      { adj: "difficult to learn", comp: "more difficult", sup: "the most difficult", group: "Longer (more / most)", a: "playing the electric guitar", b: "doing skateboard tricks", c: "speaking German fluently" },
+      { adj: "relaxing", comp: "more relaxing", sup: "the most relaxing", group: "Longer (more / most)", a: "sitting on a quiet summer beach", b: "listening to rain on the window", c: "sitting by an open fireplace" },
+      { adj: "romantic", comp: "more romantic", sup: "the most romantic", group: "Longer (more / most)", a: "a homemade sunset picnic in the park", b: "a surprise weekend city trip", c: "a long handwritten letter" },
+      { adj: "embarrassing", comp: "more embarrassing", sup: "the most embarrassing", group: "Longer (more / most)", a: "calling your teacher 'Mom' by mistake", b: "tripping in the school corridor", c: "waving back at a stranger" },
+      { adj: "interesting", comp: "more interesting", sup: "the most interesting", group: "Longer (more / most)", a: "space exploration & astronomy", b: "how the human brain works", c: "animal behaviour and psychology" }
+    ];
+
+    let currentIndex = 0;
+
+    // DOM Elements
+    const cardCounter = document.getElementById('cardCounter');
+    const cardCategory = document.getElementById('cardCategory');
+    const targetAdjective = document.getElementById('targetAdjective');
+    const grammarHint = document.getElementById('grammarHint');
+    const optA = document.getElementById('optA');
+    const optB = document.getElementById('optB');
+    const optC = document.getElementById('optC');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const randomBtn = document.getElementById('randomBtn');
+
+    function renderPrompt(index) {
+      const p = prompts[index];
+      cardCounter.textContent = `Card ${index + 1} / ${prompts.length}`;
+      cardCategory.textContent = p.group;
+      targetAdjective.textContent = p.adj;
+      grammarHint.innerHTML = `Forms: <span>${p.comp}</span> <span>${p.sup}</span>`;
+      optA.textContent = p.a;
+      optB.textContent = p.b;
+      optC.textContent = p.c;
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % prompts.length;
+      renderPrompt(currentIndex);
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + prompts.length) % prompts.length;
+      renderPrompt(currentIndex);
+    }
+
+    function showRandom() {
+      let nextIndex;
+      do {
+        nextIndex = Math.floor(Math.random() * prompts.length);
+      } while (nextIndex === currentIndex && prompts.length > 1);
+      currentIndex = nextIndex;
+      renderPrompt(currentIndex);
+    }
+
+    // Event Listeners
+    nextBtn.addEventListener('click', showNext);
+    prevBtn.addEventListener('click', showPrev);
+    randomBtn.addEventListener('click', showRandom);
+
+    // Keyboard support: Arrow Right / Arrow Left / Space
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        showNext();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        showPrev();
+      }
+    });
+
+    // Initial render
+    renderPrompt(currentIndex);
+  </script>
+</body>
+</html>
